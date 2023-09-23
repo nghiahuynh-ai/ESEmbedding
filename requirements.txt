@@ -1,0 +1,6 @@
+librosa
+einops
+transformers
+lightning
+pytorch-lightning
+omegaconf
