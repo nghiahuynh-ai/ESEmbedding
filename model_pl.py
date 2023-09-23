@@ -9,9 +9,9 @@ from model_core import ESEmbedding
 
 
 
-class Recognizer(pl.LightningModule):
+class PLESEMbedding(pl.LightningModule):
     def __init__(self, cfg: DictConfig):
-        super(Recognizer, self).__init__()
+        super(PLESEMbedding, self).__init__()
         
         self.cfg = cfg
         self.model = ESEmbedding(cfg)
@@ -33,7 +33,7 @@ class Recognizer(pl.LightningModule):
         self.criterion = ContrastiveLoss()
         
         self.train_data = ESDataset(cfg['train_dataset'])
-        self.valid_data = ESDataset(cfg['valid_dataset'])
+        self.valid_data = ESDataset(cfg['val_dataset'])
     
     def training_step(self, batch, batch_idx):
         anchors, anchors_emo, samples, samples_emo = batch
