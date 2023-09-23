@@ -41,7 +41,8 @@ class ESDataset(Dataset):
         if torch.is_tensor(idx):
             idx = idx.item()
         anchor = self.samples[idx]
-        sample = np.random.choice(self.samples)
+        sample_idx = np.random.randint(0, len(self.samples))
+        sample = self.samples[sample_idx]
         # return: path1, emo1, path2, emo2
         return anchor[0], anchor[1], sample[0], sample[1]
 
