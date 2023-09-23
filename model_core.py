@@ -42,7 +42,7 @@ class ESEmbedding(nn.Module):
             signal, 
             sampling_rate=self.sr, 
             return_tensors='pt'
-        ).get('input_values').squeeze(0).to(self.device)
+        ).get('input_values').squeeze(0).to(self.encoder.device)
 
         features = self.feature_extractor(processed_signal)
         features = features.transpose(1, 2)
