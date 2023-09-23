@@ -25,7 +25,7 @@ class ESDataset(Dataset):
                 if not os.path.isfile(fpath):
                     continue
                 self.samples.append((fpath, EMO[emo]))
-
+        print(self.samples)
         self.loader = DataLoader(
             self, 
             batch_size=config.batch_size, 
@@ -58,9 +58,6 @@ class Collate:
         anchors, anchors_emo, samples, samples_emo = [], [], [], []
         
         for anchor, anchor_emo, sample, sample_emo in batch:
-            
-            print(anchor)
-            print(sample)
             
             anchor, _ = librosa.load(anchor, sr=self.sr)
             sample, _ = librosa.load(sample, sr=self.sr)
