@@ -37,7 +37,7 @@ class ESEmbedding(nn.Module):
             ouput: (B, 1, D)
         """
         batch_size, _ = signal.shape
-
+        print(type(signal), signal.shape)
         processed_signal = self.processor(
             signal, 
             sampling_rate=self.sr, 
