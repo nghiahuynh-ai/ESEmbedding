@@ -38,8 +38,8 @@ class PLESEMbedding(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         anchors, anchors_emo, samples, samples_emo = batch
         
-        anchors_out = self.model(anchors)
-        samples_out = self.model(samples)
+        anchors_out = self.model(anchors.numpy())
+        samples_out = self.model(samples.numpy())
         y = torch.max(torch.abs(anchors_emo - samples_emo), 1)
         
         loss = self.criterion(anchors_out, samples_out, y)

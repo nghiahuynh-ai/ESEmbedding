@@ -37,13 +37,13 @@ class ESEmbedding(nn.Module):
             ouput: (B, 1, D)
         """
         batch_size, _ = signal.shape
-        print(type(signal), signal.shape)
+
         processed_signal = self.processor(
             signal, 
             sampling_rate=self.sr, 
             return_tensors='pt'
         ).get('input_values')
-        print(processed_signal.shape)
+
         features = self.feature_extractor(processed_signal)
         features = features.transpose(1, 2)
         hidden_states, features = self.feature_projection(features)
