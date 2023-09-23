@@ -1,0 +1,19 @@
+pretrained: 'facebook/wav2vec2-base'
+sampling_rate: 16000
+
+train_dataset:
+  dirs:
+    angry: '.'
+    happy: '.'
+    neutral: '.'
+    sad: '.'
+    surprise: '.'
+
+
+val_dataset:
+  dirs:
+    angry: '.'
+    happy: '.'
+    neutral: '.'
+    sad: '.'
+    surprise: '.'
