@@ -12,7 +12,8 @@ from model_core import ESEmbedding
 
 config = OmegaConf.load('config.yaml')
 print(config)
-# model = ESEmbedding(config)
+model = ESEmbedding(config)
+print(model)
 
 # sig = np.random.rand(16, 16000)
 # out = model(sig)
