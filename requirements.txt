@@ -1,4 +1,5 @@
 librosa==0.9.0
+audiofile
 einops
 transformers
 lightning
