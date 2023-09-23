@@ -25,7 +25,7 @@ class ESDataset(Dataset):
                 if not os.path.isfile(fpath):
                     continue
                 self.samples.append((fpath, EMO[emo]))
-        print(self.samples)
+        
         self.loader = DataLoader(
             self, 
             batch_size=config.batch_size, 
@@ -72,11 +72,11 @@ class Collate:
         
         for idx in range(len(anchors)):
             
-            ai = anchors[idx].size(2)
+            ai = anchors[idx].size(0)
             pad = (0, l_anchor_max - ai)
             anchors[idx] = F.pad(anchors[idx], pad)
             
-            si = samples[idx].size(2)
+            si = samples[idx].size(0)
             pad = (0, l_sample_max - si)
             samples[idx] = F.pad(samples[idx], pad)
 
