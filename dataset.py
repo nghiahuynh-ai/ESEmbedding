@@ -1,6 +1,7 @@
 import os
 import torch
 import librosa
+import soundfile as sf
 import numpy as np
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
@@ -59,8 +60,8 @@ class Collate:
         
         for anchor, anchor_emo, sample, sample_emo in batch:
             
-            anchor, _ = librosa.load(anchor, sr=self.sr)
-            sample, _ = librosa.load(sample, sr=self.sr)
+            anchor, _ = sf.read(anchor, samplerate=self.sr)
+            sample, _ = sf.read(sample, samplerate=self.sr)
             
             anchors.append(torch.tensor(anchor))
             anchors_emo.append(torch.tensor([anchor_emo]))
