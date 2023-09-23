@@ -16,6 +16,7 @@ class ESEmbedding(nn.Module):
         super().__init__()
 
         self.sr = config['sampling_rate']
+        self.device = config['device']
 
         processor = AutoProcessor.from_pretrained(config['pretrained'])
         pretrained_model = AutoModel.from_pretrained(config['pretrained'])
@@ -42,7 +43,7 @@ class ESEmbedding(nn.Module):
             signal, 
             sampling_rate=self.sr, 
             return_tensors='pt'
-        ).get('input_values').squeeze(0).to(self.encoder.device)
+        ).get('input_values').squeeze(0).to(self.device)
 
         features = self.feature_extractor(processed_signal)
         features = features.transpose(1, 2)
