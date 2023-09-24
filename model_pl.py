@@ -1,3 +1,4 @@
+import os
 import torch
 from dataset import ESDataset
 from torch.optim import AdamW
@@ -76,7 +77,12 @@ class PLESEMbedding(pl.LightningModule):
         return loss
     
     def test_step(self, batch, batch_idx):
-        return
+        anchors, _, _ = batch
+        anchors_out = self.model(anchors)
+        os.mkdir('/dump')
+        
+        for ith, anchor in enumerate(anchors_out):
+            anchor.save(f'/dump/emb_{ith}.pt')
     
     def _logging(self, logs: dict):
         for key in logs:
