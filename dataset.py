@@ -63,12 +63,14 @@ class Collate:
             sample, _ = librosa.load(sample, sr=self.sr)
             
             anchors.append(torch.tensor(anchor))
-            anchors_emo.append(torch.tensor([anchor_emo]))
+            anchors_emo.append(anchor_emo)
             samples.append(torch.tensor(sample))
-            samples_emo.append(torch.tensor([sample_emo]))
+            samples_emo.append(sample_emo)
 
             l_anchor_max = max(l_anchor_max, len(anchor))
             l_sample_max = max(l_sample_max, len(sample))
+        
+        y = []
         
         for idx in range(len(anchors)):
             
@@ -79,11 +81,12 @@ class Collate:
             si = samples[idx].size(0)
             pad = (0, l_sample_max - si)
             samples[idx] = F.pad(samples[idx], pad)
+            
+            y.append(min(abs(anchors_emo[idx] - samples_emo[idx]), 1))
 
         anchors = torch.stack(anchors)
-        anchors_emo = torch.stack(anchors_emo)
         samples = torch.stack(samples)
-        samples_emo = torch.stack(samples_emo)
+        y = torch.tensor(y)
         
-        return anchors, anchors_emo, samples, samples_emo
+        return anchors, samples, y
 

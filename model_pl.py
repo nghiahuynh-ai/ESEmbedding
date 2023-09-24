@@ -36,11 +36,10 @@ class PLESEMbedding(pl.LightningModule):
         self.valid_data = ESDataset(cfg['val_dataset'])
     
     def training_step(self, batch, batch_idx):
-        anchors, anchors_emo, samples, samples_emo = batch
+        anchors, samples, y = batch
         
         anchors_out = self.model(anchors)
         samples_out = self.model(samples)
-        y = torch.max(torch.abs(anchors_emo - samples_emo), 1)
         
         loss = self.criterion(anchors_out, samples_out, y)
         
@@ -56,11 +55,10 @@ class PLESEMbedding(pl.LightningModule):
         return loss
     
     def validation_step(self, batch, batch_idx):
-        anchors, anchors_emo, samples, samples_emo = batch
+        anchors, samples, y = batch
         
         anchors_out = self.model(anchors)
         samples_out = self.model(samples)
-        y = torch.max(torch.abs(anchors_emo - samples_emo), 1)
         
         loss = self.criterion(anchors_out, samples_out, y)
         
