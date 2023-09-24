@@ -10,18 +10,10 @@ class ContrastiveLoss(nn.Module):
 
     def forward(self, x0, x1, y):
         # euclidian distance
-        print('x0: ', x0.shape)
-        print('--------------------------------')
-        print('X1: ', x1.shape)
-        
         diff = x0 - x1
         dist_sq = torch.sum(torch.pow(diff, 2), 1)
         dist = torch.sqrt(dist_sq)
-        
-        print('dist: ', dist.shape)
-        print('--------------------------------')
-        print('y: ', y)
-
+    
         mdist = self.margin - dist
         dist = torch.clamp(mdist, min=0.0)
         loss = y * dist_sq + (1 - y) * torch.pow(dist, 2)
