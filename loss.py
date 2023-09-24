@@ -20,7 +20,7 @@ class ContrastiveLoss(nn.Module):
         
         print('dist: ', dist.shape)
         print('--------------------------------')
-        print('y: ', y.shape)
+        print('y: ', y)
 
         mdist = self.margin - dist
         dist = torch.clamp(mdist, min=0.0)
