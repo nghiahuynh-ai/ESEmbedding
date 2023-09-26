@@ -31,7 +31,7 @@ class PLESEMbedding(pl.LightningModule):
             warmup_steps=cfg.optimizer.warmup_steps,
         )
         
-        self.criterion = ContrastiveLoss()
+        self.criterion = ContrastiveLoss(cfg['contrastive_margin'])
         
         self.train_data = ESDataset(cfg['train_dataset'])
         self.valid_data = ESDataset(cfg['val_dataset'])
