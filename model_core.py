@@ -28,7 +28,10 @@ class ESEmbedding(nn.Module):
         self.encoder = pretrained_model.encoder
 
         self.cls_token = nn.Parameter(torch.rand(1, 1, hidden_size))
-        self.proj_out = nn.Linear(hidden_size, hidden_size)
+        self.proj_out = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.LayerNorm(hidden_size)
+        )
             
         self._reinit_weight_of_the_last_layer(self.encoder.layers)
         
