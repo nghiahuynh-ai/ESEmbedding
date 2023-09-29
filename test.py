@@ -8,13 +8,10 @@ from transformers import (
     AutoProcessor,
 )
 from model_core import ESEmbedding
+from loss import ContrastiveLoss, ContrastiveLossNPairs
 
 
-config = OmegaConf.load('config.yaml')
-print(config)
-model = ESEmbedding(config)
-print(model)
-
-# sig = np.random.rand(16, 16000)
-# out = model(sig)
-# print(out.shape)
+processor = AutoProcessor.from_pretrained('facebook/wav2vec2-base')
+sig = torch.rand(2, 6, 1024)
+processed = processor(sig, sampling_rate=16000, return_tensors='pt')
+print(processed.get('input_values').shape)
