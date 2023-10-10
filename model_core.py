@@ -108,7 +108,7 @@ class ESClassification(nn.Module):
             nn.ReLU()
         )
             
-        self._reinit_weight_of_the_last_layer(self.encoder.layers)
+        # self._reinit_weight_of_the_last_layer(self.encoder.layers)
         
     def forward(self, signal):
         """

@@ -234,7 +234,7 @@ class PLESClassification(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         sigals, labels = batch
         
-        output = self.model(sigals).softmax(-1)
+        output = self.model(sigals)
         
         loss = self.criterion(output, labels)
         
@@ -252,12 +252,12 @@ class PLESClassification(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         sigals, labels = batch
         
-        output = self.model(sigals).softmax(-1)
+        output = self.model(sigals)
         
-        loss = self.criterion(output, labels)
-        _precision = self.precision(output, labels)
-        _recall = self.recall(output, labels)
-        _f1 = self.f1(output, labels)
+        loss = self.criterion(output.softmax(-1), labels)
+        _precision = self.precision(output.softmax(-1), labels)
+        _recall = self.recall(output.softmax(-1), labels)
+        _f1 = self.f1(output.softmax(-1), labels)
         
         log_dict = {
             "valid_loss": {"value": loss, "on_step": True, "on_epoch": True, "prog_bar": True, "logger": True},
