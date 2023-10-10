@@ -143,6 +143,7 @@ class CollateNPair:
         l_max = max(samples, key=len)
         
         for idx in range(len(samples)):
+            print('------------------------------', samples[idx].size(0) '-----------------------')
             sig_len_i = samples[idx].size(0)
             pad = (0, l_max - sig_len_i)
             samples[idx] = F.pad(samples[idx], pad)
