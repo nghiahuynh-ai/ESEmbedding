@@ -113,7 +113,7 @@ class ESDatasetNPair(Dataset):
         
         self.loader = DataLoader(
             self, 
-            batch_size=config.batch_size, 
+            batch_size=1, 
             shuffle=config.shuffle,
             num_workers=config.num_workers,
             collate_fn=CollateNPair(config.sr),
@@ -138,10 +138,8 @@ class CollateNPair:
         self.sr = sr
         
     def __call__(self, batch):
-        
-        print(batch)
-    
-        samples = list(map(lambda x: librosa.load(x, sr=self.sr), batch))
+
+        samples = list(map(lambda x: librosa.load(x, sr=self.sr), batch[0]))
         l_max = max(samples, key=len)
         
         for idx in range(len(samples)):
