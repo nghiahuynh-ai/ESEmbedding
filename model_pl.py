@@ -234,7 +234,7 @@ class PLESClassification(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         sigals, labels = batch
         
-        output = self.model(sigals, labels).softmax(-1)
+        output = self.model(sigals).softmax(-1)
         
         loss = self.criterion(output, labels)
         
@@ -252,7 +252,7 @@ class PLESClassification(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         sigals, labels = batch
         
-        output = self.model(sigals, labels).softmax(-1)
+        output = self.model(sigals).softmax(-1)
         
         loss = self.criterion(output, labels)
         _precision = self.precision(output, labels)
