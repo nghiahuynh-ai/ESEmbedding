@@ -138,6 +138,8 @@ class CollateNPair:
         self.sr = sr
         
     def __call__(self, batch):
+        
+        print(batch)
     
         samples = list(map(lambda x: librosa.load(x, sr=self.sr), batch))
         l_max = max(samples, key=len)
