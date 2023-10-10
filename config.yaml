@@ -12,6 +12,7 @@ train_dataset:
     sad: '.'
     surprise: '.'
   batch_size: 8
+  cluster_size: ${cluster_size}
   shuffle: true
   num_workers: 4
   sr: ${sampling_rate}
@@ -24,6 +25,7 @@ val_dataset:
     sad: '.'
     surprise: '.'
   batch_size: 8
+  cluster_size: ${cluster_size}
   shuffle: true
   num_workers: 4
   sr: ${sampling_rate}
