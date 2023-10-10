@@ -141,7 +141,7 @@ class CollateNPair:
 
         samples = list(map(lambda x: librosa.load(x, sr=self.sr), batch[0]))
         l_max = max(samples, key=len)
-        
+        print(samples)
         for idx in range(len(samples)):
             sig_len_i = samples[idx].size(0)
             pad = (0, l_max - sig_len_i)
