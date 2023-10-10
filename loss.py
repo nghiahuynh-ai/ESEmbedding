@@ -48,7 +48,8 @@ class ContrastiveLossNPairs(nn.Module):
             scalar = torch.matmul(cluster, cluster.transpose(1, 0))
             # li = cluster.pow(2).sum(-1).sqrt()
             # length = torch.matmul(li, li.unsqueeze(1).transpose(1, 0))
-            score = torch.sum(torch.exp(scalar))
+            score = torch.sum(scalar)
+            print(score)
             pos += score
             
             centroids.append(cluster.mean(dim=0))
@@ -57,10 +58,10 @@ class ContrastiveLossNPairs(nn.Module):
         scalar = torch.matmul(centroids, centroids.transpose(1, 0))
         # ci = centroids.pow(2).sum(-1).sqrt()
         # length = torch.matmul(ci, ci.transpose(1, 0))
-        neg = torch.sum(torch.exp(scalar))
+        neg = torch.sum(scalar)
         
-        loss = -torch.log(pos / neg)
-        print('-----------------------------------')
-        print(pos, neg, loss)
-        print('------------------------------------')
+        loss = -torch.log(pos / (pos + neg))
+        # print('-----------------------------------')
+        # print(pos, neg, loss)
+        # print('------------------------------------')
         return loss

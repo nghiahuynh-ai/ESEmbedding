@@ -10,15 +10,8 @@ from transformers import (
 from model_core import ESEmbedding
 from loss import ContrastiveLoss, ContrastiveLossNPairs
 
-cosine = torch.nn.CosineSimilarity(dim=-1)
+loss = ContrastiveLossNPairs(4)
 
-a = torch.rand(4, 768)
-b = torch.rand(4, 768)
-# c = torch.sum(torch.matmul(a, b.transpose(1, 0)))
-# print(c)
-# print(a.mean(dim=0).exp())
-# c = cosine(a, b)
-# print(c)
-print(a)
-print('-------------')
-print(a.pow(2).sum(-1).sqrt())
+a = torch.rand(20, 1, 768)
+out = loss(a)
+print(out)
