@@ -204,7 +204,7 @@ class PLESEMbeddingNPair(pl.LightningModule):
         
 class PLESClassification(pl.LightningModule):
     def __init__(self, cfg: DictConfig):
-        super(PLESEMbeddingNPair, self).__init__()
+        super(PLESClassification, self).__init__()
         
         self.cfg = cfg
         self.model = ESClassification(cfg)
