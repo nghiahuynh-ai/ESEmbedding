@@ -116,7 +116,7 @@ class ESDatasetNPair(Dataset):
             batch_size=config.batch_size, 
             shuffle=config.shuffle,
             num_workers=config.num_workers,
-            collate_fn=Collate(config.sr),
+            collate_fn=CollateNPair(config.sr),
         )
 
     def __len__(self):
