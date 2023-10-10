@@ -41,8 +41,8 @@ class ESDataset(Dataset):
         if torch.is_tensor(idx):
             idx = idx.item()
         anchor = self.samples[idx]
-        sample_idx = np.random.randint(0, len(self.samples))
-        sample = self.samples[sample_idx]
+        idx = np.random.randint(0, len(self.samples))
+        sample = self.samples[idx]
         # return: path1, emo1, path2, emo2
         return anchor[0], anchor[1], sample[0], sample[1]
 
@@ -95,8 +95,7 @@ class ESDatasetNPair(Dataset):
         
     def __init__(self, config):
         
-        self.n_pairs = config['n_pairs']
-        self.samples = []
+        self.cluster_size = config['cluster_size']
         self.samples_emo = {'angry': [], 'happy': [], 'neutral': [], 'sad': [], 'surprise': []}
         
         for emo in config['dirs'].keys():
@@ -110,7 +109,6 @@ class ESDatasetNPair(Dataset):
                 fpath = os.path.join(emo_dir, f)
                 if not os.path.isfile(fpath):
                     continue
-                self.samples.append((fpath, emo))
                 self.samples_emo[emo].append(fpath)
         
         self.loader = DataLoader(
@@ -122,19 +120,16 @@ class ESDatasetNPair(Dataset):
         )
 
     def __len__(self):
-        return len(self.samples)
+        return len(self.samples_emo)
 
     def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.item()
-        anchor, anchor_emo = self.samples[idx]
-        positive = np.random.choice(self.samples_emo[anchor_emo])
-        negative = []
-        for emo in self.samples_emo.keys():
-            if emo != anchor_emo:
-                negative.append(np.random.choice(self.samples_emo[emo])) 
-        # return: anchor, positive, negative
-        return anchor, positive, negative
+        angry = np.random.choice(self.samples_emo['angry'], size=self.cluster_size)
+        happy = np.random.choice(self.samples_emo['happy'], size=self.cluster_size)
+        neutral = np.random.choice(self.samples_emo['neutral'], size=self.cluster_size)
+        sad = np.random.choice(self.samples_emo['sad'], size=self.cluster_size)
+        surprise = np.random.choice(self.samples_emo['surprise'], size=self.cluster_size)
+        samples = angry.tolist() + happy.tolist() + neutral.tolist() + sad.tolist() + surprise.tolist()
+        return samples
 
     
 class CollateNPair:
@@ -143,32 +138,15 @@ class CollateNPair:
         self.sr = sr
         
     def __call__(self, batch):
+    
+        samples = list(map(lambda x: librosa.load(x, sr=self.sr), batch))
+        l_max = max(samples, key=len)
         
-        l_max = 0
-        samples = []
-
-        for anchor, positive, negative in batch:
-            
-            anchor, _ = librosa.load(anchor, sr=self.sr)
-            positive, _ = librosa.load(positive, sr=self.sr)
-            
-            negative_list, sig_len = [], []
-            for neg in negative:
-                neg, _ = librosa.load(neg, sr=self.sr)
-                negative_list.append(torch.tensor(neg))
-                sig_len.append(len(neg))
-            l_max_i = max(sig_len + [len(anchor), len(positive)])
-            l_max = max(l_max_i, l_max)
-            
-            sample = [torch.tensor(anchor), torch.tensor(positive)] + negative_list
-            samples.append(sample)
-        
-        for sample_idx in range(len(samples)):
-            for sig_idx in range(len(samples[sample_idx])):
-                sig_len_i = samples[sample_idx][sig_idx].size(0)
-                pad = (0, l_max - sig_len_i)
-                samples[sample_idx][sig_idx] = F.pad(samples[sample_idx][sig_idx], pad)
-            samples[sample_idx] = torch.stack(samples[sample_idx])
+        for idx in range(len(samples)):
+            sig_len_i = samples[idx].size(0)
+            pad = (0, l_max - sig_len_i)
+            samples[idx] = F.pad(samples[idx], pad)
+            samples[idx] = torch.tensor(samples[idx])
         samples = torch.stack(samples)
         
         return samples

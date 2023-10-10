@@ -10,15 +10,15 @@ from transformers import (
 from model_core import ESEmbedding
 from loss import ContrastiveLoss, ContrastiveLossNPairs
 
+cosine = torch.nn.CosineSimilarity(dim=-1)
 
-# processor = AutoProcessor.from_pretrained('facebook/wav2vec2-base')
-# sig = torch.rand(2, 6, 1024)
-# processed = processor(sig, sampling_rate=16000, return_tensors='pt')
-# print(processed.get('input_values').shape)
-
-loss = ContrastiveLoss(margin=100)
-x0 = torch.rand(4, 768)
-x1 = torch.rand(4, 768)
-y = torch.tensor([1, 0, 0, 1])
-
-loss(x0, x1, y)
+a = torch.rand(4, 768)
+b = torch.rand(4, 768)
+# c = torch.sum(torch.matmul(a, b.transpose(1, 0)))
+# print(c)
+# print(a.mean(dim=0).exp())
+# c = cosine(a, b)
+# print(c)
+print(a)
+print('-------------')
+print(a.pow(2).sum(-1).sqrt())
