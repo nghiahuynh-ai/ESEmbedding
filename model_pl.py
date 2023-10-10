@@ -1,6 +1,6 @@
 import os
 import torch
-from dataset import ESDataset
+from dataset import ESDataset, ESDatasetNPair
 from torch.optim import AdamW
 import lightning.pytorch as pl
 from optim import NoamScheduler
@@ -109,7 +109,7 @@ class PLESEMbedding(pl.LightningModule):
         
 class PLESEMbeddingNPair(pl.LightningModule):
     def __init__(self, cfg: DictConfig):
-        super(PLESEMbedding, self).__init__()
+        super(PLESEMbeddingNPair, self).__init__()
         
         self.cfg = cfg
         self.model = ESEmbedding(cfg)
@@ -130,8 +130,8 @@ class PLESEMbeddingNPair(pl.LightningModule):
         
         self.criterion = ContrastiveLossNPairs(cfg['cluster_size'])
         
-        self.train_data = ESDataset(cfg['train_dataset'])
-        self.valid_data = ESDataset(cfg['val_dataset'])
+        self.train_data = ESDatasetNPair(cfg['train_dataset'])
+        self.valid_data = ESDatasetNPair(cfg['val_dataset'])
     
     def training_step(self, batch, batch_idx):
         
