@@ -205,6 +205,8 @@ class CollateClassification:
             samples.append(torch.tensor(sample))
             labels.append(torch.tensor(sample_emo))
             l_sample_max = max(l_sample_max, len(sample))
+            print(sample, sample_emo)
+            print('------------------------------------------------')
         
         for idx in range(len(samples)):
             si = samples[idx].size(0)
@@ -213,5 +215,6 @@ class CollateClassification:
 
         samples = torch.stack(samples)
         labels = torch.stack(labels)
-        
+        print('labes: ', labels)
+        print('------------------------------------------------')
         return samples, labels
