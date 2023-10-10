@@ -201,12 +201,12 @@ class CollateClassification:
         samples, labels = [], []
         
         for sample, sample_emo in batch:
+            print(sample, sample_emo)
+            print('------------------------------------------------')
             sample, _ = librosa.load(sample, sr=self.sr)
             samples.append(torch.tensor(sample))
             labels.append(torch.tensor(sample_emo))
             l_sample_max = max(l_sample_max, len(sample))
-            print(sample, sample_emo)
-            print('------------------------------------------------')
         
         for idx in range(len(samples)):
             si = samples[idx].size(0)
