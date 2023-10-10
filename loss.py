@@ -49,7 +49,7 @@ class ContrastiveLossNPairs(nn.Module):
             # li = cluster.pow(2).sum(-1).sqrt()
             # length = torch.matmul(li, li.unsqueeze(1).transpose(1, 0))
             score = torch.sum(scalar)
-            print(score)
+            # print(score)
             pos += score
             
             centroids.append(cluster.mean(dim=0))
