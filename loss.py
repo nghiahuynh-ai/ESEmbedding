@@ -54,7 +54,7 @@ class ContrastiveLossNPairs(nn.Module):
             centroids.append(cluster.mean(dim=0))
             
         centroids = torch.stack(centroids).to(x.device)
-        scalar = torch.matmul(centroids, centroids.unsqueeze(1).transpose(1, 0))
+        scalar = torch.matmul(centroids, centroids.transpose(1, 0))
         # ci = centroids.pow(2).sum(-1).sqrt()
         # length = torch.matmul(ci, ci.transpose(1, 0))
         neg = torch.sum(torch.exp(scalar))
