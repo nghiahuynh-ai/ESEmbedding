@@ -201,8 +201,6 @@ class CollateClassification:
         samples, labels = [], []
         
         for sample, sample_emo in batch:
-            print(sample, sample_emo)
-            print('------------------------------------------------')
             sample, _ = librosa.load(sample, sr=self.sr)
             samples.append(torch.tensor(sample))
             labels.append(torch.tensor(sample_emo))
@@ -215,6 +213,5 @@ class CollateClassification:
 
         samples = torch.stack(samples)
         labels = torch.stack(labels)
-        print('labes: ', labels)
-        print('------------------------------------------------')
+        
         return samples, labels

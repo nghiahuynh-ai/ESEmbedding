@@ -104,8 +104,7 @@ class ESClassification(nn.Module):
 
         self.cls_token = nn.Parameter(torch.rand(1, 1, hidden_size))
         self.proj_out = nn.Sequential(
-            nn.Linear(hidden_size, 5),
-            nn.ReLU()
+            nn.Linear(hidden_size, 5)
         )
             
         # self._reinit_weight_of_the_last_layer(self.encoder.layers)
