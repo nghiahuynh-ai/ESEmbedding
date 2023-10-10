@@ -141,12 +141,11 @@ class CollateNPair:
 
         samples = list(map(lambda x: torch.tensor(librosa.load(x, sr=self.sr)[0]), batch[0]))
         l_max = len(max(samples, key=len))
-        
+
         for idx in range(len(samples)):
             sig_len_i = samples[idx].size(0)
             pad = (0, l_max - sig_len_i)
             samples[idx] = F.pad(samples[idx], pad)
-            samples[idx] = torch.tensor(samples[idx])
         samples = torch.stack(samples)
         
         return samples

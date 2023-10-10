@@ -60,5 +60,7 @@ class ContrastiveLossNPairs(nn.Module):
         neg = torch.sum(torch.exp(scalar))
         
         loss = -torch.log(pos / neg)
-        
+        print('-----------------------------------')
+        print(pos, neg, loss)
+        print('------------------------------------')
         return loss
