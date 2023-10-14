@@ -104,8 +104,10 @@ class ESClassification(nn.Module):
 
         self.cls_token = nn.Parameter(torch.rand(1, 1, hidden_size))
         self.proj_out = nn.Sequential(
-            nn.Linear(hidden_size, 5)
+            nn.Linear(hidden_size, hidden_size),
+            nn.LayerNorm(hidden_size)
         )
+        self.cls_head = nn.Linear(hidden_size, 5)
             
         # self._reinit_weight_of_the_last_layer(self.encoder.layers)
         
@@ -132,6 +134,7 @@ class ESClassification(nn.Module):
         hidden_states = self.encoder(hidden_states).last_hidden_state
         cls_emb = hidden_states[:, 0] # just pick the first feature, aka cls tokens
         output = self.proj_out(cls_emb)
+        output = self.cls_head(output)
         
         return output.squeeze(1)
     
