@@ -4,6 +4,8 @@ contrastive_margin: 1
 cluster_size: 4
 device: 'cuda:0'
 
+loss_weights: [0.9, 2.3, 0.3, 4.5, 5.1]
+
 train_dataset:
   dirs:
     angry: '.'

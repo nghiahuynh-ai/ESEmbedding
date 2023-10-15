@@ -223,7 +223,7 @@ class PLESClassification(pl.LightningModule):
             warmup_steps=cfg.optimizer.warmup_steps,
         )
         
-        self.criterion = CrossEntropyLoss()
+        self.criterion = CrossEntropyLoss(torch.tensor(cfg['loss_weights']))
         self.precision = torchmetrics.Precision(task="multiclass", average='macro', num_classes=5)
         self.recall = torchmetrics.Recall(task="multiclass", average='macro', num_classes=5)
         self.f1 = torchmetrics.F1Score(task="multiclass", average='macro', num_classes=5)
